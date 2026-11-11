@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="I built a 3D simulation workflow to compare water and gas transport in a circular cell that alternates between producing and consuming hydrogen.">
+  <meta name="description" content="Three-dimensional Fluent simulations of patterned wettability and dual-mode water management in a circular unitized regenerative fuel cell.">
   <title>Regenerative fuel cell flow fields | Yonghan Jiao</title>
   <link rel="canonical" href="https://yonghan-jiao-engineering.neon-frost-7185.chatgpt.site/projects/regenerative-fuel-cells.html">
   <link rel="stylesheet" href="../assets/type.css">
@@ -28,25 +28,51 @@
         <a class="text-link back-link" href="../index.html#work"><span aria-hidden="true">←&nbsp;</span> All projects</a>
         <p class="eyebrow">Multiphase CFD</p>
         <h1>Regenerative fuel cell flow fields</h1>
-        <p class="deck">A unitized regenerative fuel cell stores energy as hydrogen in electrolyzer mode and generates electricity in fuel cell mode. I am studying how the same channel and porous-layer designs handle water in both modes.</p>
-        <dl class="case-meta"><div><dt>Lab</dt><dd>Xi’an Jiaotong University, Guobin Zhang’s group</dd></div><div><dt>Role</dt><dd>Research assistant</dd></div><div><dt>Methods</dt><dd>ANSYS Fluent, structured meshing, user-defined functions</dd></div></dl>
+        <p class="deck">A unitized regenerative fuel cell (URFC) splits water to make hydrogen in electrolyzer mode and consumes hydrogen to generate electricity in fuel-cell mode. I used multiphase simulations to evaluate how one porous transport layer can manage liquid water in both modes.</p>
+        <dl class="case-meta"><div><dt>Lab</dt><dd>Xi’an Jiaotong University, Guobin Zhang’s group</dd></div><div><dt>Role</dt><dd>Research assistant, CFD modeling and transport analysis</dd></div><div><dt>Methods</dt><dd>ANSYS Fluent, structured meshing, multiphase transport, user-defined functions</dd></div></dl>
       </header>
       <div class="case-body">
-  <section class="case-section case-split">
-    <div><h2>Comparing channels and wetting patterns</h2>
-      <p>I built a parametric, multilayer model of the circular cell and generated structured meshes for parallel and serpentine flow fields. I implemented spatially varying wettability in the porous transport layer with a user-defined function so I could test how wetting patterns redirect liquid water and gas.</p></div>
-    <figure class="compare-figure">
-      <figcaption>How the same cell operates in two modes</figcaption>
-      <table class="case-table">
-        <thead><tr><th scope="col">Mode</th><th scope="col">Design question</th></tr></thead>
-        <tbody><tr><th scope="row">Electrolyzer</th><td>Can the channels deliver water while clearing generated gas?</td></tr><tr><th scope="row">Fuel cell</th><td>Can the porous layers remove product water while keeping gas paths open?</td></tr></tbody>
-      </table>
-    </figure>
-  </section>
-  <section class="case-section">
-    <h2>Evaluating both operating modes</h2>
-      <p>The workflow compares voltage–current curves alongside local water and species distributions. Those fields help me identify where liquid accumulates or reactant supply becomes uneven, and check whether a design change helps both operating modes. The geometry and wettability comparison is ongoing.</p>
-  </section>
+        <section class="case-section case-split">
+          <div>
+            <h2>Testing three wetting patterns</h2>
+            <p>I built a parametric, multilayer model of the circular cell and generated structured meshes for parallel and serpentine channels. I used a Fluent user-defined function to assign alternating contact angles to the oxygen-side porous transport layer (PTL), changing the local capillary pressure.</p>
+            <p>I analyzed 16 simulated cases. Each combination of channel layout and operating mode included one unpatterned reference and three stripe widths.</p>
+          </div>
+          <figure class="case-figure">
+            <div class="figure-image"><img src="../assets/urfc-ptl-patterns.webp" alt="Circular oxygen-side porous transport layers with alternating one, four and eight millimeter stripes" width="1377" height="457" loading="lazy" decoding="async"></div>
+            <figcaption>The three oxygen-side PTL patterns have 1, 4, or 8 mm stripes. Blue denotes hydrophilic regions at a 60° contact angle, and amber denotes hydrophobic regions at 120°. The two regions have equal nominal area. <a href="../assets/urfc-ptl-patterns.webp">Full-size figure <span class="arrow" aria-hidden="true">↗</span></a></figcaption>
+          </figure>
+        </section>
+        <section class="case-section">
+          <h2>Serpentine electrolysis showed the largest gain</h2>
+          <p>At 1.6 V, the widest stripes (P05) raised simulated current density from <strong>0.448 to 0.488 A/cm²</strong>, an <strong>8.79% increase</strong> over the unpatterned serpentine electrolyzer case. At the tested fuel-cell voltage of 0.6 V, the largest improvement was 0.46%.</p>
+          <figure class="compare-figure case-data">
+            <figcaption id="urfc-current-caption">Change in simulated current density relative to the unpatterned reference</figcaption>
+            <table class="case-table case-table--numeric" aria-labelledby="urfc-current-caption">
+              <thead><tr><th scope="col">Operating case</th><th scope="col">P01</th><th scope="col">P03</th><th scope="col">P05</th></tr></thead>
+              <tbody>
+                <tr><th scope="row">Parallel electrolysis</th><td><strong>+1.87%</strong></td><td>+1.70%</td><td>+1.65%</td></tr>
+                <tr><th scope="row">Serpentine electrolysis</th><td>+4.57%</td><td>+6.91%</td><td><strong>+8.79%</strong></td></tr>
+                <tr><th scope="row">Parallel fuel cell</th><td><strong>+0.13%</strong></td><td>−1.26%</td><td>−1.76%</td></tr>
+                <tr><th scope="row">Serpentine fuel cell</th><td>+0.26%</td><td><strong>+0.46%</strong></td><td>+0.15%</td></tr>
+              </tbody>
+            </table>
+          </figure>
+          <p class="case-note">Each row has its own baseline and operating conditions. The percentages compare patterns within a row.</p>
+        </section>
+        <section class="case-section">
+          <h2>Where the water went</h2>
+          <p>In serpentine electrolysis, P05 reduced the share of catalyst-layer volume below 10% liquid saturation from <strong>45.1% to 38.8%</strong>. Average PTL saturation stayed near 26%. The volume-weighted coefficient of variation of the reaction current density fell from 0.80 to 0.74, indicating a more uniform reaction.</p>
+          <figure class="case-figure figure-strip">
+            <div class="figure-image"><img src="../assets/urfc-serpentine-we-fields.webp" alt="Modeled catalyst-layer water saturation and local current density for the unpatterned, P01, P03, and P05 serpentine electrolyzer cases" width="1511" height="936" loading="lazy" decoding="async"></div>
+            <figcaption>Serpentine electrolyzer at 1.6 V. Each row uses a common color scale across all four cases. The maps use the report’s shared edge treatment, and the numerical comparisons use the original three-dimensional cells. <a href="../assets/urfc-serpentine-we-fields.webp">Full-size figure <span class="arrow" aria-hidden="true">↗</span></a></figcaption>
+          </figure>
+        </section>
+        <section class="case-section">
+          <h2>Choosing a PTL for both modes</h2>
+          <p>For parallel channels, the fine P01 stripes improved current in both modeled modes. For serpentine channels, P03 gave the largest fuel-cell gain and P05 gave the largest electrolysis gain. I would carry both serpentine candidates forward under matched conditions to decide which pattern to use in the shared PTL.</p>
+          <p>These steady operating points support pattern screening. Evaluating round-trip efficiency requires mode-switching tests that track hydrogen production and consumption alongside energy input and output.</p>
+        </section>
       </div>
       <nav class="case-next" aria-label="More projects">
         <a class="text-link" href="../index.html#work">All projects</a>

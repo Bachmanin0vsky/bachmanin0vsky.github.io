@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="A rotating liquid-metal heat exchanger concept routes steelmaking waste heat to a two-loop power generation system.">
+  <meta name="description" content="COMSOL thermal design screening of a rotating roller that recovers steel-slag heat into a liquid-metal loop.">
   <title>Steel slag heat recovery | Yonghan Jiao</title>
   <link rel="canonical" href="https://yonghan-jiao-engineering.neon-frost-7185.chatgpt.site/projects/steel-slag-heat-recovery.html">
   <link rel="stylesheet" href="../assets/type.css">
@@ -28,28 +28,56 @@
         <a class="text-link back-link" href="../index.html#work"><span aria-hidden="true">←&nbsp;</span> All projects</a>
         <p class="eyebrow">Industrial heat recovery</p>
         <h1>Steel slag heat recovery</h1>
-        <p class="deck">Hot slag carries away energy from steelmaking. Our team designed a system that would capture this heat for power generation and handle solidifying slag at the heat exchanger.</p>
-        <dl class="case-meta"><div><dt>Lab</dt><dd>Xi’an Jiaotong University, Wenxiao Chu’s group</dd></div><div><dt>Role</dt><dd>Heat exchanger and cycle design</dd></div><div><dt>Methods</dt><dd>Heat transfer, thermal system design</dd></div></dl>
+        <p class="deck">Hot slag carries away energy from steelmaking. I developed a rotating roller concept to recover that heat and used a three-dimensional thermal model to screen the roller geometry and operating conditions.</p>
+        <dl class="case-meta"><div><dt>Lab</dt><dd>Xi’an Jiaotong University, Wenxiao Chu’s group</dd></div><div><dt>Role</dt><dd>Roller design, thermal simulation, and system integration</dd></div><div><dt>Methods</dt><dd>COMSOL 6.4, conjugate heat transfer, phase-change modeling</dd></div></dl>
       </header>
       <div class="case-body">
-  <section class="case-section case-split">
-    <div><h2>Designing a rotating heat exchanger</h2>
-      <p>I developed the rotating roller concept and designed the two-loop power generation system. Hot slag transfers heat through the roller wall to a liquid-metal loop. The roller turns to spread the slag and help release the solidifying layer, and a second loop uses the recovered heat to generate steam for power.</p>
-      <p>I also proposed an autonomous trolley concept to collect and deliver slag between batches.</p></div>
-    <figure class="compare-figure">
-      <figcaption>Heat path through the proposed system</figcaption>
-      <ol class="process-list">
-        <li><strong>Rotating roller</strong> absorbs heat from slag.</li>
-        <li><strong>Liquid metal</strong> carries the heat to a steam generator.</li>
-        <li><strong>Steam</strong> drives a turbine in the power loop.</li>
-      </ol>
-    </figure>
-  </section>
-  <section class="case-section">
-    <h2>Concept evaluation and recognition</h2>
-      <p>Under a prescribed slag temperature field, the team’s steady-state simulation predicted local liquid-metal temperatures of about 150 °C near the inlet and 550 °C near the outlet. The team used this thermal analysis and cycle sizing to assess the concept described in Chinese invention patent application <a href="https://eureka.patsnap.com/patent/CN121855261A">CN 121855261 A</a>.</p>
-      <p>The project earned a national second prize (top 10%) in the 2024 National University Student Energy-Saving &amp; Emission Reduction contest.</p>
-  </section>
+        <section class="case-section case-split">
+          <div>
+            <h2>Modeling heat recovery from slag</h2>
+            <p>I designed the roller concept and its integration into a two-loop power system. Slag covers a 120° sector and transfers heat through the rotating wall to an annular indium–bismuth passage. The hot liquid metal would supply a downstream steam generator. I also proposed an automated trolley to replenish slag between batches.</p>
+            <p>In COMSOL, I coupled liquid flow to heat transfer through the slag, wall, and liquid metal on a stationary mesh. I accounted for rotation through material transport and represented slag solidification with an apparent heat capacity.</p>
+          </div>
+          <figure class="case-figure">
+            <div class="figure-image"><img src="../assets/steel-slag-roller-system.webp" alt="Heat recovery system boundary and roller cross-section showing slag over a 120 degree sector, the rotating wall, and the liquid metal annulus" width="1614" height="698" loading="lazy" decoding="async"></div>
+            <figcaption>The roller model covers heat transfer from slag through the wall to the annular liquid-metal passage. The diagram shows how that passage would feed a downstream steam cycle. <a href="../assets/steel-slag-roller-system.webp">Full-size figure <span class="arrow" aria-hidden="true">↗</span></a></figcaption>
+          </figure>
+        </section>
+        <section class="case-section case-split">
+          <div>
+            <h2>A 3 m screening configuration</h2>
+            <p>I mapped 49 combinations of roller speed and liquid inlet velocity, then screened nine lengths, nine liquid gaps, and eight wall thicknesses.</p>
+            <p>The screening case uses a 3 m roller, a 20 mm liquid gap, a 25 mm wall, and a rotation rate of 0.05 rpm.</p>
+            <dl class="result-stats">
+              <div><dt>Recovered thermal power</dt><dd>455 <span class="units">kW</span></dd></div>
+              <div><dt>Liquid-metal outlet temperature</dt><dd>≈332 <span class="units">°C</span></dd></div>
+            </dl>
+          </div>
+          <figure class="case-figure">
+            <div class="figure-image"><img src="../assets/steel-slag-roller-fields.webp" alt="Simulated roller wall temperature, liquid metal speed and gauge pressure, and liquid streamlines" width="1249" height="1081" loading="lazy" decoding="async"></div>
+            <figcaption>COMSOL fields for the 25 mm wall case. The model predicts a peak wall temperature of 478 °C. Streamlines show axial transport through the rotating annulus. <a href="../assets/steel-slag-roller-fields.webp">Full-size figure <span class="arrow" aria-hidden="true">↗</span></a></figcaption>
+          </figure>
+        </section>
+        <section class="case-section">
+          <h2>Operating and geometry trade-offs</h2>
+          <figure class="compare-figure case-data">
+            <figcaption id="roller-sweeps-caption">Selected comparisons from the operating and geometry sweeps</figcaption>
+            <table class="case-table" aria-labelledby="roller-sweeps-caption">
+              <thead><tr><th scope="col">Change tested</th><th scope="col">Modeled trade-off</th></tr></thead>
+              <tbody>
+                <tr><th scope="row">Rotation<br>0.05 to 0.20 rpm</th><td>At a fixed slag layer thickness and a liquid inlet speed of 2 mm/s, feed rose fourfold and contact time fell from 400 to 100 s. Recovered power rose from 261 to 502 kW, while heat recovered per kilogram fell from 364 to 175 kJ/kg.</td></tr>
+                <tr><th scope="row">Roller length<br>3 to 4 m</th><td>At fixed slag feed, the extra meter recovered about 50 kW more heat and increased ambient losses by about 48 kW.</td></tr>
+                <tr><th scope="row">Liquid gap<br>100 to 20 mm</th><td>At fixed mass flows, the narrower gap reduced liquid-metal inventory from 13.60 to 2.84 t. Peak wall temperature rose by about 56 °C.</td></tr>
+                <tr><th scope="row">Wall thickness<br>20–25 mm vs. 40 mm</th><td>The thinner walls retained 97–98% of the largest tested heat duty at about 51–63% of the 40 mm wall mass.</td></tr>
+              </tbody>
+            </table>
+          </figure>
+          <p class="case-note">A 3 m roller with a 20–25 mm wall is a candidate for further testing. Targeted mesh refinements changed heat duty by less than 0.5% at the checked points. Validation requires measurements of slag enthalpy and hot liquid-metal properties, plus separate assessments of wall durability and steam-cycle output.</p>
+        </section>
+        <section class="case-section">
+          <h2>Project recognition</h2>
+          <p>The original system concept earned a national second prize (top 10%) in the 2024 National University Student Energy-Saving &amp; Emission Reduction contest. The team documented the concept in Chinese invention patent application <a href="https://eureka.patsnap.com/patent/CN121855261A">CN 121855261 A</a>.</p>
+        </section>
       </div>
       <nav class="case-next" aria-label="More projects">
         <a class="text-link" href="../index.html#work">All projects</a>
